@@ -1,191 +1,80 @@
-import React, { useState, useEffect } from "react";
-import Header from "./components/Header";
-import DirectoryTable from "./components/DirectoryTable";
-import AddUserForm from "./components/AddUserForm";
-import EditUserForm from "./components/EditUserForm";
-import Pagination from "./components/Pagination";
-import Modal from "./components/Modal";
-import useModal from "./hooks/useModal";
+import React from "react";
+import "./App.css";
+import { useState } from "react";
+import * as XLSX from "xlsx";
 
-const App = () => {
-  const [users, setUsers] = useState([]);
-  const [editing, setEditing] = useState(false);
-  const initialFormState = {
-    id: null,
-    education: "",
-    institute: "",
-    university: "",
-    passingyear: "",
-    percentage: "",
-  };
-  const [currentUser, setCurrentUser] = useState(initialFormState);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [usersPerPage] = useState(5);
-  const { isShowing, toggle } = useModal();
+function App() {
+  const [items, setItems] = useState([]);
+  const [show, setShow] = useState(false);
 
-  useEffect(() => {
-    const data = [
-      {
-        id: 1,
-        education: "bca",
-        institute: "pes",
-        university: "kuvempu",
-        passingyear: 1452,
-        percentage: 88,
-      },
-      {
-        id: 2,
-        education: "mca",
-        institute: "pes",
-        university: "kuvempu",
-        passingyear: 1452,
-        percentage: 88,
-      },
-      {
-        id: 3,
-        education: "civil",
-        institute: "pes",
-        university: "kuvempu",
-        passingyear: 1452,
-        percentage: 88,
-      },
-      {
-        id: 4,
-        education: "ec",
-        institute: "pes",
-        university: "kuvempu",
-        passingyear: 1452,
-        percentage: 88,
-      },
-      {
-        id: 5,
-        education: "bsc",
-        institute: "pes",
-        university: "kuvempu",
-        passingyear: 1452,
-        percentage: 88,
-      },
-      {
-        id: 1,
-        education: "bca",
-        institute: "pes",
-        university: "kuvempu",
-        passingyear: 1452,
-        percentage: 88,
-      },
-      {
-        id: 2,
-        education: "mca",
-        institute: "pes",
-        university: "kuvempu",
-        passingyear: 1452,
-        percentage: 88,
-      },
-      {
-        id: 3,
-        education: "civil",
-        institute: "pes",
-        university: "kuvempu",
-        passingyear: 1452,
-        percentage: 88,
-      },
-      {
-        id: 4,
-        education: "ec",
-        institute: "pes",
-        university: "kuvempu",
-        passingyear: 1452,
-        percentage: 88,
-      },
-      {
-        id: 5,
-        education: "bsc",
-        institute: "pes",
-        university: "kuvempu",
-        passingyear: 1452,
-        percentage: 88,
-      },
-    ];
-    setUsers(data);
-  }, []);
+  const readExcel = (file) => {
+    const promise = new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(file);
 
-  // incrementing ids + adding placeholder image manually
-  // TODO: update id and image handling when tying this to a database
-  const addUser = (user) => {
-    toggle();
-    user.id = users.length + 1;
-    setUsers([user, ...users]);
-  };
+      fileReader.onload = (e) => {
+        const bufferArray = e.target.result;
 
-  const editUser = (user) => {
-    setEditing(true);
-    toggle();
-    setCurrentUser({
-      id: user.id,
-      education: user.education,
-      institute: user.institute,
-      university: user.university,
-      passingyear: user.passingyear,
-      percentage: user.percentage,
+        const wb = XLSX.read(bufferArray, { type: "buffer" });
+
+        const wsname = wb.SheetNames[0];
+
+        const ws = wb.Sheets[wsname];
+
+        const data = XLSX.utils.sheet_to_json(ws);
+
+        resolve(data);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+
+    promise.then((d) => {
+      setItems(d);
     });
   };
-
-  const updateUser = (id, updatedUser) => {
-    setEditing(false);
-    setUsers(users.map((user) => (user.id === id ? updatedUser : user)));
-    toggle();
+  const handleShow = () => {
+    setShow(true);
   };
-
-  const deleteUser = (id) => {
-    setUsers(users.filter((user) => user.id !== id));
-  };
-
-  // pagination
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
-  // change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div>
-      <Header />
-      <div className="container">
-        <button className="button-add" onClick={toggle}>
-          Add User
-        </button>
-      </div>
-      {editing ? (
-        <Modal
-          isShowing={isShowing}
-          hide={toggle}
-          content={
-            <EditUserForm
-              setEditing={setEditing}
-              currentUser={currentUser}
-              updateUser={updateUser}
-            />
-          }
-        />
-      ) : (
-        <Modal
-          isShowing={isShowing}
-          hide={toggle}
-          content={<AddUserForm addUser={addUser} />}
-        />
-      )}
-      <DirectoryTable
-        users={currentUsers}
-        editUser={editUser}
-        deleteUser={deleteUser}
+    <div style={{ textAlign: "center" }}>
+      <input
+        type="file"
+        onChange={(e) => {
+          const file = e.target.files[0];
+          readExcel(file);
+        }}
       />
-      <Pagination
-        usersPerPage={usersPerPage}
-        totalUsers={users.length}
-        paginate={paginate}
-      />
+      <br />
+      <button onClick={handleShow}>submit</button>
+
+      <table className="table container">
+        <thead>
+          <tr>
+            <th scope="col">name</th>
+            <th scope="col">email</th>
+            <th scope="col">phoneno</th>
+            <th scope="col">gender</th>
+          </tr>
+        </thead>
+        {show && (
+          <tbody>
+            {items.map((d) => (
+              <tr key={d.name}>
+                <th>{d.name}</th>
+                <td>{d.email}</td>
+                <td>{d.phoneno}</td>
+                <td>{d.gender}</td>
+              </tr>
+            ))}
+          </tbody>
+        )}
+      </table>
     </div>
   );
-};
+}
 
 export default App;

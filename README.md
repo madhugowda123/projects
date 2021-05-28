@@ -1,49 +1,70 @@
-# Directory
+# Getting Started with Create React App
 
-## Overview
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-A React JS CRUD application that populates a table with data that can be sorted in ascending/descending order for various categories, as well as via a search input. Users can add, update, and delete items added to the directory.
+## Available Scripts
 
-![Screenshot](screenshot.jpg)
+In the project directory, you can run:
 
-## Technologies Used
+### `npm start`
 
-- [React JS](https://reactjs.org/)
-- [Node](https://nodejs.org/)
-- [Express](https://expressjs.com/)
-- [Randomuser.me](https://randomuser.me/) for populating the table with random user data
-- [Axios](https://github.com/axios/axios) for fetching API data
-- [Material UI](https://material-ui.com/) for icons and UI elements
-- [Jest](https://jestjs.io/) for testing
-- [Prettier](https://prettier.io/) for formatting the project's code
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## Approach
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-I started off using `create-react-app` to build out the framework for the CRUD functionality, before implementing filters and more customization. I decided to use a table to display the directory data, since it was easier and more intuitive for users to have column sorting for different categories. I decided to focus on using React hooks instead of Redux for managing state.
+### `npm test`
 
-After adding pagination, search filtering, column sorting, and modals for editing, I added tests once the basic structure was in placed and worked on improving the application's UI.
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-Next, I worked on setting up Node/Express for the backend for serving the API.
+### `npm run build`
 
-## Installation
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-To run locally:
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-- `git clone` this repo and `cd` into the `directory` folder
-- `npm i` to install dependencies
-- create a `.env` within the project's root directory
-- `npm run dev` to run the frontend and backend locally
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-To run prettier on the project after making changes, use `npm run format`
+### `npm run eject`
 
-## Next Steps
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-- Storing data to a database and image handling: since this isn't hooked up to a database or custom API (and is using mock data), users aren't able to upload images. Currently the application adds a default image whenever a user adds a new item.
-- Properly setup post requests that connect passing data from the frontend to backend.
-- More specific tests: the current tests check to make sure major components are rendering properly, but I would want to implement more specific tests for the application's functionality.
-- Add a loader for when the data is being fetched.
-- Instead of using modals for editing users, use inline editing.
-- Add active classes for the pagination.
-- Have a better design implemented and a different way to manage styles - perhaps with styled components; also add in UI-related animations for sorting and removing items.
-- Right now the header only consists of the name of the application. For an application in production, I would add navigation and routing.
-- Have a confirmation message when the user deletes an item from the table.
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
